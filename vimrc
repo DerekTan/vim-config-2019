@@ -132,6 +132,13 @@ set formatoptions+=mM
 "Enable syntax highlight
 syntax enable
 
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" encoding
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set fileencodings=utf-8,gb2312,gbk,gb18030
+set encoding=prc
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Key binding
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -145,68 +152,6 @@ noremap <Leader>wr :set wrap<CR>
 noremap <F11> :!py -2 %
 noremap <F12> :!py -3 %
 
-
-" -------auto pair bracket
-inoremap ( <c-r>=StartPair('(')<CR>
-inoremap [ <c-r>=StartPair('[')<CR>
-inoremap {<CR> {<CR>}<Esc>O
-"autocmd Syntax html,vim inoremap < <lt>><Esc>i| inoremap > <c-r>=ClosePair('>')<CR>
-inoremap ) <c-r>=ClosePair(')')<CR>
-inoremap ] <c-r>=ClosePair(']')<CR>
-"inoremap } <c-r>=CloseBracket()<CR>
-"inoremap " <c-r>=QuoteDelim('"')<CR>
-"inoremap ' <c-r>=QuoteDelim("'")<CR>
-"用退格键删除一个左括号时同时删除对应的右括号
-"inoremap <BS> <ESC>:call RemovePairs()<CR>
-inoremap <BS> <c-r>=RemovePairs()<CR>
-
-function! StartPair(char)
-	if a:char == '('
-		let l:endChar = ')'
-	elseif a:char =='['
-		let l:endChar = ']'
-	endif 
-"	if strlen(getline('.')) == col('.')
-	if match(strpart(getline(line('.')), col('.')), '\s*\S') < 0
-		" if followed only by whitespaces...
-		" add pair automatically
-		return a:char.l:endChar."\<ESC>i"
-	else
-		echom "has following characters" . a:char
-		return a:char
-	endif
-endfunction
-
-function! ClosePair(char)
-	if getline('.')[col('.') - 1] == a:char
-		return "\<Right>"
-	else
-		return a:char
-	endif
-endf
-
-
-function! RemovePairs()
-	echom "remote pairs"
-	let l:line = getline(".")
-	let l:previous_char = l:line[col(".")-1] "取得当前光标前一个字符
-	let l:next_char = l:line[col(".")] "取得当前光标后一个字符
-
-	echom "previous_char:".l:previous_char
-	if l:previous_char ==# '('
-		if match(strpart(getline(line('.')), col('.')), '\s*)') != -1
-			" if followed by other characters instead of ')'
-			echom "backspace"
-			return <BS>
-		elseif
-			echom "delete ) automatically"
-			return "\<ESC>cf)"
-		endif
-	elseif l:previous_char ==# '['
-		nop
-	endif
-
-endfunction
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " autocmd
@@ -277,9 +222,7 @@ function! ClosePair(char)
 	endif
 endf
 
-
 function! RemovePairs()
-	echom "------"
 	let l:line = getline(".")
 	let l:previous_char = l:line[col(".")-2] "取得当前光标前一个字符
 
@@ -287,13 +230,15 @@ function! RemovePairs()
 		let l:close_char = ')'
 	elseif l:previous_char ==# '['
 		let l:close_char = ']'
+	else
+		return "\<BS>"
 	endif
 
 	if l:previous_char ==# '(' || l:previous_char ==# '['
 		if match(strpart(getline(line('.')), col('.')-1), '\s*'.l:close_char) != -1
 			" if followed by spaces and ')'
 			return "\<ESC>cf".l:close_char
-		elseif
+		else
 			" if followed by other characters instead of ')'
 			return "\<BS>"
 		endif
