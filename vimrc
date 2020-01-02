@@ -268,11 +268,14 @@ Plug 'w0rp/ale'
 Plug 'mhinz/vim-signify'
 Plug 'vim-scripts/UltiSnips'
 Plug 'octol/vim-cpp-enhanced-highlight'
-Plug 'vim-scripts/DoxygenToolkit.vim'
+"Plug 'vim-scripts/DoxygenToolkit.vim'
+Plug 'DerekTan/DoxygenToolkitForRainbow'
 Plug 'inkarkat/vim-mark'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'Ervandew/supertab'
 Plug 'tpope/vim-surround'
+Plug 'easymotion/vim-easymotion'
+Plug 'luochen1990/rainbow'
 
 " Any valid git URL is allowed
 "Plug 'https://github.com/junegunn/vim-github-dashboard.git'
@@ -366,8 +369,10 @@ let g:gutentags_ctags_extra_args += ['--output-format=e-ctags']
 " 禁用 gutentags 自动加载 gtags 数据库的行为，否则
 let g:gutentags_auto_add_gtags_cscope = 0
 
-" 查看 gtags 的错误输出：
-" let g:gutentags_define_advanced_commands = 1
+" 查看 gtags 的错误输出,debug only：
+let g:gutentags_define_advanced_commands = 1
+
+" let g:gutentags_trace = 1
 
 " 检测 ~/.cache/tags 不存在就新建
 if !isdirectory(s:vim_tags)
@@ -475,3 +480,10 @@ let g:DoxygenToolkit_licenseTag = "(c) Copyright 2004-2017 Mettler-Toledo. All R
 " The following 2 lines are optional.
 let g:DoxygenToolkit_timezoneString = "CCT"
 let g:DoxygenToolkit_projectString = "Rainbow"
+
+"------------------------------
+" for personal use
+" copy file name
+nmap <C-F9> :let @+=expand("%:t")<CR>
+" copy full path
+nmap <C-F10> :let @+=expand("%")<CR>
