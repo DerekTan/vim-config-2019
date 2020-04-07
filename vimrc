@@ -328,6 +328,8 @@ call plug#end()
 " --.tags means search from ":pwd" directory
 set tags=./.tags;,.tags
 
+nnoremap <C-]> :ts <C-R>=expand("<cword>")<CR><CR>
+
 "------------------------------
 " for gtags
 " use gtags for C/C++/Java, use pygments for other languages
@@ -341,7 +343,7 @@ noremap <F3> :NERDTreeToggle<CR>
 "------------------------------
 "for gutentags
 " gutentags 搜索工程目录的标志，碰到这些文件/目录名就停止向上一级目录递归
-let g:gutentags_project_root = ['.root', '.svn', '.git', '.hg', '.project']
+let g:gutentags_project_root = ['.root', '.svn', '.git', '.hg', '.project', '.vs']
 
 " 所生成的数据文件的名称
 let g:gutentags_ctags_tagfile = '.tags'
@@ -484,6 +486,18 @@ let g:DoxygenToolkit_projectString = "Rainbow"
 "------------------------------
 " for personal use
 " copy file name
-nmap <C-F9> :let @+=expand("%:t")<CR>
+nnoremap <C-F9> :let @+=expand("%:t")<CR>
 " copy full path
-nmap <C-F10> :let @+=expand("%")<CR>
+nnoremap <C-F10> :let @+=expand("%:p")<CR>
+
+"-----------------------------
+" for copy to system clipboard
+" copy a single line
+nnoremap <Leader>yy :let @+=getline('.')<CR>
+nnoremap <Leader>YY :let @+=getline('.')<CR>
+" copy the word under the curser
+nnoremap <Leader>yiw :let @+=expand('<cword>')<CR>
+
+"-----------------------------
+" open the folder contains the current file with explorer
+nnoremap <C-F11> :!start explorer /e,%:p:h<CR>
