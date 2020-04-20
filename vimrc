@@ -78,9 +78,9 @@ set fdm=syntax
 " Text options
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " don't expand tab with spaces
-set noexpandtab
+"set noexpandtab
 " expand tab with spaces
-"set expandtab
+set expandtab
 
 " tab indent
 set shiftwidth=4
@@ -266,7 +266,7 @@ Plug 'skywind3000/gutentags_plus'
 Plug 'vim-scripts/CRefVim'
 Plug 'w0rp/ale'
 Plug 'mhinz/vim-signify'
-Plug 'vim-scripts/UltiSnips'
+"Plug 'vim-scripts/UltiSnips'
 Plug 'octol/vim-cpp-enhanced-highlight'
 "Plug 'vim-scripts/DoxygenToolkit.vim'
 Plug 'DerekTan/DoxygenToolkitForRainbow'
@@ -281,7 +281,8 @@ Plug 'luochen1990/rainbow'
 "Plug 'https://github.com/junegunn/vim-github-dashboard.git'
 
 " Multiple Plug commands can be written in a single line using | separators
-"Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
 
 " On-demand loading
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
@@ -482,6 +483,14 @@ let g:DoxygenToolkit_licenseTag = "(c) Copyright 2004-2017 Mettler-Toledo. All R
 " The following 2 lines are optional.
 let g:DoxygenToolkit_timezoneString = "CCT"
 let g:DoxygenToolkit_projectString = "Rainbow"
+
+"------------------------------
+" for doxygenToolkit
+let g:UltiSnipsExpandTrigger = '<tab>'
+let g:UltiSnipsJumpForwardTrigger = '<tab>'
+let g:UltiSnipsJumpBackwardTrigger = '<s-tab>'
+" If you want :UltiSnipsEdit to split your window.
+let g:UltiSnipsEditSplit="vertical"
 
 "------------------------------
 " for personal use
