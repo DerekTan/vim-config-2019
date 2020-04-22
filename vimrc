@@ -276,6 +276,8 @@ Plug 'Ervandew/supertab'
 Plug 'tpope/vim-surround'
 Plug 'easymotion/vim-easymotion'
 Plug 'luochen1990/rainbow'
+Plug 'rickhowe/spotdiff'
+Plug 'tpope/vim-surround'
 
 " Any valid git URL is allowed
 "Plug 'https://github.com/junegunn/vim-github-dashboard.git'
