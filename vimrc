@@ -136,8 +136,33 @@ syntax enable
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " encoding
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" 编码的自动识别，是通过设置fileencodings实现的。
+" fileencodings是一个用逗号分隔的列表，列表中的每一项是一种编码的名称。
+" 当我们打开文件时，Vim按顺序使用fileencodings中的编码进行尝试解码，
+" 如果成功的话，就使用该编码方式进行解码，并将fileencoding设置为这个值；如果失败的话，就继续检验下一个编码。
+" 因此，我们在设置fileencodings时，一定要把严格的编码方式放在前面，把宽松的编码方式放在后面。
+" 例如，latin1是一种非常宽松的编码方式，任何一种编码方式得到的文本，用latin1进行解码，都不会发生解码失败。
+" 当然，解码得到的结果也很可能会是乱码。
+" 因此，如果你把latin1放到fileencodings的第一位，那么打开任何中文文件都会显示乱码了。
+" 推荐使用以下fileencodings设置：
 set fileencodings=utf-8,gb2312,gbk,gb18030
-set encoding=prc
+
+" encoding是Vim内部使用的字符编码方式。
+" Vim内部所有的buffer、寄存器、脚本中的字符串等，都会使用encoding设置的编码。
+" 如果编码方式与Vim的内部编码不一致，那么会先把编码转换成内部编码。
+" 如果编码中含有无法转换为内部编码的字符，那么这些字符就会丢失。
+" 因此，在选择Vim内部编码时，一定要使用一种包容力足够强的编码。
+" 由于encoding选项涉及到Vim中所有字符的内部表示，因此只能在Vim启动的时候设置一次。
+" 在Vim工作过程中修改encoding会造成非常多的问题。
+" 建议将encoding设置为utf-8，同时设置以下选项，以避免在非UTF-8系统（如Windows）下，菜单和系统提示出现乱码：
+set encoding=utf-8
+set langmenu=en_US
+let $LANG = 'en_US'
+source $VIMRUNTIME/delmenu.vim
+source $VIMRUNTIME/menu.vim
+" 如果要使用中文菜单，把上面4行替换成下面两行
+" set langmenu=zh_CN.UTF-8
+" language message zh_CN.UTF-8
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Key binding
@@ -367,6 +392,9 @@ endif
 let s:vim_tags = expand('~/.cache/tags')
 let g:gutentags_cache_dir = s:vim_tags
 
+" show tag generation progress in status-line
+set statusline+=%{gutentags#statusline()}
+
 " 配置 ctags 的参数
 let g:gutentags_ctags_extra_args = ['--fields=+niazS', '--extra=+q']
 let g:gutentags_ctags_extra_args += ['--c++-kinds=+px']
@@ -378,9 +406,10 @@ let g:gutentags_ctags_extra_args += ['--output-format=e-ctags']
 let g:gutentags_auto_add_gtags_cscope = 0
 
 " 查看 gtags 的错误输出,debug only：
-let g:gutentags_define_advanced_commands = 1
+let g:gutentags_define_advanced_commands = 0
 
-" let g:gutentags_trace = 1
+" debug
+let g:gutentags_trace = 0
 
 " 检测 ~/.cache/tags 不存在就新建
 if !isdirectory(s:vim_tags)
@@ -461,7 +490,7 @@ let g:ale_cpp_cppcheck_options = ''
 " for LeaderF
 "let g:Lf_ShortcutF = '<c-p>'
 "let g:Lf_ShortcutB = '<m-n>'
-noremap <Leader>M :LeaderfMru<cr>
+noremap <Leader>R :LeaderfMru<cr>
 noremap <Leader>F :LeaderfFunction!<cr>
 "noremap <m-n> :LeaderfBuffer<cr>
 noremap <Leader>t :LeaderfTag<cr>
@@ -482,12 +511,12 @@ let g:mkdp_path_to_chrome = "C:\Program Files (x86)\Google\Chrome\Application\ch
 
 " set to 1, nvim will open the preview window after entering the markdown buffer
 " default: 0
-let g:mkdp_auto_start = 0
+let g:mkdp_auto_start = 1
 
 " set to 1, the nvim will auto close current preview window when change
 " from markdown buffer to another buffer
 " default: 1
-let g:mkdp_auto_close = 0
+let g:mkdp_auto_close = 1
 
 " set to 1, the vim will refresh markdown when save the buffer or
 " leave from insert mode, default 0 is auto refresh markdown as you edit or
@@ -567,7 +596,7 @@ let g:mkdp_page_title = '「${name}」'
 "<Plug>MarkdownPreviewStop
 
 nnoremap <F7> :MarkdownPreview<CR>
-nnoremap <F8> :MarkdownPreviewStop<CR>
+"nnoremap <F8> :MarkdownPreviewStop<CR>
 
 "------------------------------
 " for doxygenToolkit
