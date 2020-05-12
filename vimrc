@@ -227,14 +227,14 @@ function! StartPair(char)
 		let l:endChar = ')'
 	elseif a:char =='['
 		let l:endChar = ']'
-	endif 
+	endif
 "	if strlen(getline('.')) == col('.')
 	if match(strpart(getline(line('.')), col('.')-1), '\s*\S') < 0
 		" if followed only by whitespaces...
 		" add pair automatically
 		return a:char.l:endChar."\<ESC>i"
 	else
-		echom "has following characters" . a:char
+		"echom "has following characters" . a:char
 		return a:char
 	endif
 endfunction
@@ -625,6 +625,26 @@ let g:UltiSnipsEditSplit="vertical"
 nnoremap <C-F9> :let @+=expand("%:t")<CR>
 " copy full path
 nnoremap <C-F10> :let @+=expand("%:p")<CR>
+
+" add or remove 'TODO' mark
+nnoremap \td <ESC>:call Todo()<CR>
+
+function! Todo()
+    let l:line = getline(line("."))
+    " echom "Todo()"
+    if match(l:line, '// TODO\s*$') < 0
+        " if not end with '// TODO', append it
+        " echom "Found"
+        let l:line = substitute(l:line,'\s*$',"\t\t// TODO","")
+    else
+        " if this line is end with '// TODO', remove it
+        " echom "Not found"
+        let l:line = substitute(l:line,'\s*// TODO\s*$',"","")
+    endif
+    " echom l:line
+    call setline('.', l:line)
+    " call cursor(s:lnum, s:pos)
+endfunction
 
 "-----------------------------
 " for copy to system clipboard
