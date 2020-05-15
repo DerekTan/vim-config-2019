@@ -627,7 +627,7 @@ nnoremap <C-F9> :let @+=expand("%:t")<CR>
 nnoremap <C-F10> :let @+=expand("%:p")<CR>
 
 " add or remove 'TODO' mark
-nnoremap \td <ESC>:call Todo()<CR>
+nnoremap \td :call Todo()<CR>
 
 function! Todo()
     let l:line = getline(line("."))
@@ -657,3 +657,7 @@ nnoremap <Leader>yiw :let @+=expand('<cword>')<CR>
 "-----------------------------
 " open the folder contains the current file with explorer
 nnoremap <C-F11> :!start explorer /e,%:p:h<CR>
+
+nnoremap <Leader>cmd :!start cmd /k %:p:h:8<CR>
+
+
