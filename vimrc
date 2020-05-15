@@ -658,6 +658,10 @@ nnoremap <Leader>yiw :let @+=expand('<cword>')<CR>
 " open the folder contains the current file with explorer
 nnoremap <C-F11> :!start explorer /e,%:p:h<CR>
 
+" open cmd in current location
 nnoremap <Leader>cmd :!start cmd /k %:p:h:8<CR>
+
+" open powershell in current location
+nnoremap <Leader>ps :!start powershell -noexit -command "& {cd %:p:h:8}"<CR>
 
 
