@@ -55,6 +55,26 @@ set is
 "set hide unsaved buf
 set hidden
 
+" set statusline
+" 设置状态行显示常用信息
+" %F 完整文件路径名
+" %m 当前缓冲被修改标记
+" %r 当前缓冲只读标记
+" %h 帮助缓冲标记
+" %w 预览缓冲标记
+" %Y 文件类型
+" %b ASCII值
+" %B 十六进制值
+" %l 行数
+" %v 列数
+" %p 当前行数占总行数的的百分比
+" %L 总行数
+" %{...} 评估表达式的值，并用值代替
+" %{"[fenc=".(&fenc==""?&enc:&fenc).((exists("+bomb") && &bomb)?"+":"")."]"} 显示文件编码
+" %{&ff} 显示文件类型
+set statusline=%n>\ %F%m%r%h%w%=\ %Y\ %{\"[\".(&fenc==\"\"?&enc:&fenc).((exists(\"+bomb\")\ &&\ &bomb)?\"+\":\"\").\"]\"}\ %{&ff}\ <0x%B>\ (%l,%v)\ --%p%%--\ 
+"set statusline=%F%m%r%h%w%=\ [ft=%Y]\ %{\"[fenc=\".(&fenc==\"\"?&enc:&fenc).((exists(\"+bomb\")\ &&\ &bomb)?\"+\":\"\").\"]\"}\ [ff=%{&ff}]\ [asc=%03.3b]\ [hex=%02.2B]\ [pos=%04l,%04v][%p%%]\ [len=%L]
+
 "the last window will have a status line
 set laststatus=2
 
@@ -68,10 +88,10 @@ set whichwrap+=<,>,h,l
 " Folding
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "Enable folding
-"set foldmethod
 "set nofen
 set foldenable
 set fdl=3
+"set foldmethod
 set fdm=syntax
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -185,6 +205,22 @@ noremap <F12> :!py -3 %
 "windows窗口最大化设置（如果不想打开vim后就自动最大化，把这行删去）
 au GUIEnter * simalt ~x
 
+augroup htmlIndent
+    autocmd!
+    autocmd BufNewFile,BufRead *.html set fdm=indent
+    "autocmd BufNewFile,BufRead *.html set noexpandtab
+augroup END
+
+" for .[ch] file, highlight all characters exceed the right margin
+augroup hlRightMargin
+    autocmd!
+    autocmd BufNewFile,BufRead *.[ch] exec ":call HLRightMargin()"
+    func HLRightMargin()
+        :highlight rightMargin term=bold ctermfg=Blue guifg=Blue
+        :match rightMargin /.\%>101v/
+    endfunc
+augroup END
+
 " highlight cursorLine
 
 augroup cursor_line
@@ -292,16 +328,20 @@ Plug 'vim-scripts/CRefVim'
 Plug 'w0rp/ale'
 Plug 'mhinz/vim-signify'
 "Plug 'vim-scripts/UltiSnips'
-Plug 'octol/vim-cpp-enhanced-highlight'
+"Plug 'octol/vim-cpp-enhanced-highlight'
 "Plug 'vim-scripts/DoxygenToolkit.vim'
 Plug 'DerekTan/DoxygenToolkitForRainbow'
-Plug 'inkarkat/vim-mark'
+"Plug 'inkarkat/vim-mark'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'Ervandew/supertab'
 Plug 'tpope/vim-surround'
 Plug 'easymotion/vim-easymotion'
 Plug 'luochen1990/rainbow'
 Plug 'rickhowe/spotdiff.vim'
+Plug 'vim-scripts/matchit.zip'
+Plug 'Yggdroot/indentLine'
+Plug 'mattn/emmet-vim'
+Plug 'pangloss/vim-javascript'
 
 " If you don't have nodejs and yarn
 " use pre build
@@ -393,7 +433,7 @@ let s:vim_tags = expand('~/.cache/tags')
 let g:gutentags_cache_dir = s:vim_tags
 
 " show tag generation progress in status-line
-set statusline+=%{gutentags#statusline()}
+" set statusline+=%{gutentags#statusline()}
 
 " 配置 ctags 的参数
 let g:gutentags_ctags_extra_args = ['--fields=+niazS', '--extra=+q']
@@ -511,12 +551,12 @@ let g:mkdp_path_to_chrome = "C:\Program Files (x86)\Google\Chrome\Application\ch
 
 " set to 1, nvim will open the preview window after entering the markdown buffer
 " default: 0
-let g:mkdp_auto_start = 1
+let g:mkdp_auto_start = 0
 
 " set to 1, the nvim will auto close current preview window when change
 " from markdown buffer to another buffer
 " default: 1
-let g:mkdp_auto_close = 1
+let g:mkdp_auto_close = 0
 
 " set to 1, the vim will refresh markdown when save the buffer or
 " leave from insert mode, default 0 is auto refresh markdown as you edit or
@@ -656,7 +696,7 @@ nnoremap <Leader>yiw :let @+=expand('<cword>')<CR>
 
 "-----------------------------
 " open the folder contains the current file with explorer
-nnoremap <C-F11> :!start explorer /e,%:p:h<CR>
+nnoremap <Leader>ex :!start explorer /e,%:p:h<CR>
 
 " open cmd in current location
 nnoremap <Leader>cmd :!start cmd /k %:p:h:8<CR>
@@ -664,4 +704,8 @@ nnoremap <Leader>cmd :!start cmd /k %:p:h:8<CR>
 " open powershell in current location
 nnoremap <Leader>ps :!start powershell -noexit -command "& {cd %:p:h:8}"<CR>
 
+" open current directory
+nnoremap <Leader>od :e %:p:h<CR>
 
+" open current directory in new tab
+nnoremap <Leader>td :tabnew %:p:h<CR>
