@@ -667,7 +667,7 @@ nnoremap <C-F9> :let @+=expand("%:t")<CR>
 nnoremap <C-F10> :let @+=expand("%:p")<CR>
 
 " add or remove 'TODO' mark
-nnoremap \td :call Todo()<CR>
+nnoremap <Leader>td :call Todo()<CR>
 
 function! Todo()
     let l:line = getline(line("."))
@@ -708,4 +708,4 @@ nnoremap <Leader>ps :!start powershell -noexit -command "& {cd %:p:h:8}"<CR>
 nnoremap <Leader>od :e %:p:h<CR>
 
 " open current directory in new tab
-nnoremap <Leader>td :tabnew %:p:h<CR>
+nnoremap <Leader>nd :tabnew %:p:h<CR>
