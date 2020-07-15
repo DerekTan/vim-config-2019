@@ -4,6 +4,9 @@
 "make Vim behave in a more useful way.
 set nocompatible
 
+" disable beep or flash 
+set vb t_vb=
+
 "set gui option
 set go=gmrLt
 
@@ -194,8 +197,8 @@ nnoremap <C-k> <C-w>k
 noremap <Leader>wr :set wrap<CR>
 
 " for windows
-noremap <F11> :!py -2 %
-noremap <F12> :!py -3 %
+noremap <F11> :!py -3 %
+noremap <F12> :w<CR>:source %<CR>
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -342,6 +345,10 @@ Plug 'vim-scripts/matchit.zip'
 Plug 'Yggdroot/indentLine'
 Plug 'mattn/emmet-vim'
 Plug 'pangloss/vim-javascript'
+Plug 'skywind3000/vim-quickui'
+" colorscheme NeoSolarized
+Plug 'iCyMind/NeoSolarized'
+Plug 'DerekTan/webAssistant'
 
 " If you don't have nodejs and yarn
 " use pre build
@@ -483,6 +490,8 @@ noremap <silent> <leader>ga :GscopeFind a <C-R><C-W><cr>
 " for Tagbar
 nnoremap <silent> <F8> :TagbarToggle<CR>
 
+set termguicolors
+
 "------------------------------
 " for solarized
 "colorscheme darkblue
@@ -493,7 +502,9 @@ else
 endif
 let g:solarized_italic=0
 let g:solarized_contrast="high"
-colorscheme solarized
+"colorscheme solarized
+
+colorscheme NeoSolarized
 
 "------------------------------
 " for ale
