@@ -101,7 +101,7 @@ set fdm=syntax
 " Text options
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " don't expand tab with spaces
-"set noexpandtab
+" set noexpandtab
 " expand tab with spaces
 set expandtab
 
@@ -330,7 +330,6 @@ Plug 'skywind3000/gutentags_plus'
 Plug 'vim-scripts/CRefVim'
 Plug 'w0rp/ale'
 Plug 'mhinz/vim-signify'
-"Plug 'vim-scripts/UltiSnips'
 "Plug 'octol/vim-cpp-enhanced-highlight'
 "Plug 'vim-scripts/DoxygenToolkit.vim'
 Plug 'DerekTan/DoxygenToolkitForRainbow'
@@ -349,6 +348,7 @@ Plug 'skywind3000/vim-quickui'
 " colorscheme NeoSolarized
 Plug 'iCyMind/NeoSolarized'
 Plug 'DerekTan/webAssistant'
+Plug 'juneedahamed/vc.vim' 	" version control 
 
 " If you don't have nodejs and yarn
 " use pre build
@@ -369,7 +369,9 @@ Plug 'vim-scripts/a.vim', { 'on' : 'A' }
 Plug 'Yggdroot/LeaderF', { 'do': '.\install.bat' }
 
 " Using a non-master branch
-Plug 'rdnetto/YCM-Generator', { 'branch': 'stable' }
+"Plug 'rdnetto/YCM-Generator', { 'branch': 'stable' }
+Plug 'skywind3000/vim-auto-popmenu'
+
 
 " Using a tagged release; wildcard allowed (requires git 1.9.2 or above)
 "Plug 'fatih/vim-go', { 'tag': '*' }
@@ -485,6 +487,41 @@ noremap <silent> <leader>gf :GscopeFind f <C-R>=expand("<cfile>")<cr><cr>
 noremap <silent> <leader>gi :GscopeFind i <C-R>=expand("<cfile>")<cr><cr>
 noremap <silent> <leader>gd :GscopeFind d <C-R><C-W><cr>
 noremap <silent> <leader>ga :GscopeFind a <C-R><C-W><cr>
+
+"------------------------------
+" for vim-auto-popmenu
+"------------------------------
+" enable this plugin for filetypes, '*' for all files.
+"let g:apc_enable_ft = {'text':1, 'markdown':1, 'php':1}
+let g:apc_enable_ft = {'*':1}
+
+" source for dictionary, current or other loaded buffers, see ':help cpt'
+set cpt=.,k,w,b
+
+" don't select the first item.
+set completeopt=menu,menuone,noselect
+
+" suppress annoy messages.
+set shortmess+=c
+
+
+"------------------------------
+" vim-quickui
+"------------------------------
+" want a glimpse to the definition of the current word under cursor 
+" without actually open that file
+" When you move the cursor around and press <key>, 
+" the definition of current <cword> under cursor will display in the preview window. 
+" If there are multiple definitions, press <key> again will circularly display the next one, 
+" and in the command line, you will see the details about how many definitions and source file name.
+" Don't forget to use quickui#preview#scroll to scroll the content in the preview window if you want to see more.
+" This feature requires ctags databases are loaded correctly in vim. A plugin gutentags can do it for you nicely in the background.
+nnoremap <m-p> :call quickui#tools#preview_tag('')<cr>
+" Change border characters
+let g:quickui_border_style = 1
+let g:quickui_color_scheme = 'borland'
+let g:quickui_preview_w = 100
+let g:quickui_preview_h = 15
 
 "------------------------------
 " for Tagbar
