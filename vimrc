@@ -10,6 +10,10 @@ set vb t_vb=
 "set gui option
 set go=gmrLt
 
+"set font
+"set guifont=Powerline_Consolas:h12:cANSI:qDRAFT
+set guifont=Consolas:h11
+
 "Show line number
 set nu
 
@@ -208,108 +212,6 @@ noremap <F12> :w<CR>:source %<CR>
 "windows窗口最大化设置（如果不想打开vim后就自动最大化，把这行删去）
 au GUIEnter * simalt ~x
 
-augroup htmlIndent
-    autocmd!
-    autocmd BufNewFile,BufRead *.html set fdm=indent
-    "autocmd BufNewFile,BufRead *.html set noexpandtab
-augroup END
-
-" for .[ch] file, highlight all characters exceed the right margin
-augroup hlRightMargin
-    autocmd!
-    autocmd BufNewFile,BufRead *.[ch] exec ":call HLRightMargin()"
-    func HLRightMargin()
-        :highlight rightMargin term=bold ctermfg=Blue guifg=Blue
-        :match rightMargin /.\%>101v/
-    endfunc
-augroup END
-
-" highlight cursorLine
-
-augroup cursor_line
-	autocmd!
-	autocmd BufRead * set cursorline
-	autocmd InsertEnter * set nocursorline
-	autocmd InsertLeave * set cursorline
-augroup END
-
-augroup auto_reload_vimrc
-	autocmd!
-	autocmd BufWritePost *vimrc source $MYVIMRC
-augroup END
-
-"auto trailing whitespace
-augroup auto_trailing_whitespace
-	autocmd!
-	autocmd BufWritePre *.c :%s/\s\+$//e
-	autocmd BufWritePre *.h :%s/\s\+$//e
-	autocmd BufWritePre Kconfig :%s/\s\+$//e
-	autocmd BufWritePre Makefile :%s/\s\+$//e
-augroup END
-
-" auto pair bracket
-inoremap ( <c-r>=StartPair('(')<CR>
-inoremap [ <c-r>=StartPair('[')<CR>
-inoremap {<CR> {<CR>}<Esc>O
-"autocmd Syntax html,vim inoremap < <lt>><Esc>i| inoremap > <c-r>=ClosePair('>')<CR>
-inoremap ) <c-r>=ClosePair(')')<CR>
-inoremap ] <c-r>=ClosePair(']')<CR>
-"inoremap } <c-r>=CloseBracket()<CR>
-"inoremap " <c-r>=QuoteDelim('"')<CR>
-"inoremap ' <c-r>=QuoteDelim("'")<CR>
-"用退格键删除一个左括号时同时删除对应的右括号
-"inoremap <BS> <ESC>:call RemovePairs()<CR>
-inoremap <BS> <c-r>=RemovePairs()<CR>
-
-function! StartPair(char)
-	if a:char == '('
-		let l:endChar = ')'
-	elseif a:char =='['
-		let l:endChar = ']'
-	endif
-"	if strlen(getline('.')) == col('.')
-	if match(strpart(getline(line('.')), col('.')-1), '\s*\S') < 0
-		" if followed only by whitespaces...
-		" add pair automatically
-		return a:char.l:endChar."\<ESC>i"
-	else
-		"echom "has following characters" . a:char
-		return a:char
-	endif
-endfunction
-
-function! ClosePair(char)
-	if getline('.')[col('.') - 1] == a:char
-		return "\<Right>"
-	else
-		return a:char
-	endif
-endf
-
-function! RemovePairs()
-	let l:line = getline(".")
-	let l:previous_char = l:line[col(".")-2] "取得当前光标前一个字符
-
-	if l:previous_char ==# '('
-		let l:close_char = ')'
-	elseif l:previous_char ==# '['
-		let l:close_char = ']'
-	else
-		return "\<BS>"
-	endif
-
-	if l:previous_char ==# '(' || l:previous_char ==# '['
-		if match(strpart(getline(line('.')), col('.')-1), '\s*'.l:close_char) != -1
-			" if followed by spaces and ')'
-			return "\<ESC>cf".l:close_char
-		else
-			" if followed by other characters instead of ')'
-			return "\<BS>"
-		endif
-	else
-		return "\<BS>"
-	endif
-endfunction
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " vim-plug
@@ -327,6 +229,7 @@ Plug 'vim-syntastic/syntastic'
 Plug 'altercation/vim-colors-solarized'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'skywind3000/gutentags_plus'
+Plug 'skywind3000/vim-preview'
 Plug 'vim-scripts/CRefVim'
 Plug 'w0rp/ale'
 Plug 'mhinz/vim-signify'
@@ -352,6 +255,8 @@ Plug 'juneedahamed/vc.vim' 	" version control
 
 " If you don't have nodejs and yarn
 " use pre build
+
+" Provide a handy way to preview tags, files and function signatures
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() } }
 
 " Any valid git URL is allowed
@@ -420,10 +325,12 @@ let $GTAGSCONF = $HOME.'/vimfiles/gtags/share/gtags/gtags.conf'
 "for NERDTree
 noremap <F3> :NERDTreeToggle<CR>
 
-"------------------------------
+"==================================================================================================
+"  G U T E N T A G S
+"==================================================================================================
 "for gutentags
 " gutentags 搜索工程目录的标志，碰到这些文件/目录名就停止向上一级目录递归
-let g:gutentags_project_root = ['.root', '.svn', '.git', '.hg', '.project', '.vs']
+let g:gutentags_project_root = ['.root', '.svn', '.git', '.hg', '.project', '.vs', '.vscode']
 
 " 所生成的数据文件的名称
 let g:gutentags_ctags_tagfile = '.tags'
@@ -465,7 +372,9 @@ if !isdirectory(s:vim_tags)
    silent! call mkdir(s:vim_tags, 'p')
 endif
 
-"------------------------------
+"==================================================================================================
+"  G U T E N T A G S   P L U S
+"==================================================================================================
 " for gutentags_plus
 " 0 or s: Find this symbol
 " 1 or g: Find this definition
@@ -487,6 +396,20 @@ noremap <silent> <leader>gf :GscopeFind f <C-R>=expand("<cfile>")<cr><cr>
 noremap <silent> <leader>gi :GscopeFind i <C-R>=expand("<cfile>")<cr><cr>
 noremap <silent> <leader>gd :GscopeFind d <C-R><C-W><cr>
 noremap <silent> <leader>ga :GscopeFind a <C-R><C-W><cr>
+
+"==================================================================================================
+"  V I M - P R E V I E W
+"==================================================================================================
+noremap <m-j> :PreviewScroll -1<cr>
+noremap <m-k> :PreviewScroll +1<cr>
+inoremap <m-j> <c-\><c-o>:PreviewScroll -1<cr>
+inoremap <m-k> <c-\><c-o>:PreviewScroll +1<cr>
+
+autocmd FileType qf nnoremap <silent><buffer> p :PreviewQuickfix<cr>
+autocmd FileType qf nnoremap <silent><buffer> P :PreviewClose<cr>
+
+noremap <F4> :PreviewSignature!<cr>
+inoremap <F4> <c-\><c-o>:PreviewSignature!<cr>
 
 "------------------------------
 " for vim-auto-popmenu
@@ -707,13 +630,127 @@ let g:UltiSnipsJumpBackwardTrigger = '<s-tab>'
 " If you want :UltiSnipsEdit to split your window.
 let g:UltiSnipsEditSplit="vertical"
 
-"------------------------------
-" for personal use
-" copy file name
+"==================================================================================================
+"  P E R S O N A L   S E T T I N G S
+"==================================================================================================
+
+"---------------------------------------------------------------------
+" set foldmethod when open .html file
+augroup htmlIndent
+    autocmd!
+    autocmd BufNewFile,BufRead *.html set fdm=indent
+    "autocmd BufNewFile,BufRead *.html set noexpandtab
+augroup END
+
+"---------------------------------------------------------------------
+" for .[ch] file, highlight all characters exceed the right margin
+"augroup hlRightMargin
+"    autocmd!
+"    autocmd BufNewFile,BufRead *.[ch] exec ":call HLRightMargin()"
+"    func HLRightMargin()
+"        :highlight rightMargin term=bold ctermfg=Blue guifg=Blue
+"        :match rightMargin /.\%>101v/
+"    endfunc
+"augroup END
+
+"---------------------------------------------------------------------
+" highlight cursorLine
+augroup cursor_line
+	autocmd!
+	autocmd BufRead * set cursorline
+	autocmd InsertEnter * set nocursorline
+	autocmd InsertLeave * set cursorline
+augroup END
+
+"---------------------------------------------------------------------
+" auto reload .vimrc
+augroup auto_reload_vimrc
+	autocmd!
+	autocmd BufWritePost *vimrc source $MYVIMRC
+augroup END
+
+"---------------------------------------------------------------------
+"auto trailing whitespace for .c .h file
+augroup auto_trailing_whitespace
+	autocmd!
+	autocmd BufWritePre *.c :%s/\s\+$//e
+	autocmd BufWritePre *.h :%s/\s\+$//e
+	autocmd BufWritePre Kconfig :%s/\s\+$//e
+	autocmd BufWritePre Makefile :%s/\s\+$//e
+augroup END
+
+"---------------------------------------------------------------------
+" auto pair bracket
+inoremap ( <c-r>=StartPair('(')<CR>
+inoremap [ <c-r>=StartPair('[')<CR>
+inoremap {<CR> {<CR>}<Esc>O
+"autocmd Syntax html,vim inoremap < <lt>><Esc>i| inoremap > <c-r>=ClosePair('>')<CR>
+inoremap ) <c-r>=ClosePair(')')<CR>
+inoremap ] <c-r>=ClosePair(']')<CR>
+"inoremap } <c-r>=CloseBracket()<CR>
+"inoremap " <c-r>=QuoteDelim('"')<CR>
+"inoremap ' <c-r>=QuoteDelim("'")<CR>
+"用退格键删除一个左括号时同时删除对应的右括号
+"inoremap <BS> <ESC>:call RemovePairs()<CR>
+inoremap <BS> <c-r>=RemovePairs()<CR>
+
+function! StartPair(char)
+	if a:char == '('
+		let l:endChar = ')'
+	elseif a:char =='['
+		let l:endChar = ']'
+	endif
+"	if strlen(getline('.')) == col('.')
+	if match(strpart(getline(line('.')), col('.')-1), '\s*\S') < 0
+		" if followed only by whitespaces...
+		" add pair automatically
+		return a:char.l:endChar."\<ESC>i"
+	else
+		"echom "has following characters" . a:char
+		return a:char
+	endif
+endfunction
+
+function! ClosePair(char)
+	if getline('.')[col('.') - 1] == a:char
+		return "\<Right>"
+	else
+		return a:char
+	endif
+endf
+
+function! RemovePairs()
+	let l:line = getline(".")
+	let l:previous_char = l:line[col(".")-2] "取得当前光标前一个字符
+
+	if l:previous_char ==# '('
+		let l:close_char = ')'
+	elseif l:previous_char ==# '['
+		let l:close_char = ']'
+	else
+		return "\<BS>"
+	endif
+
+	if l:previous_char ==# '(' || l:previous_char ==# '['
+		if match(strpart(getline(line('.')), col('.')-1), '\s*'.l:close_char) != -1
+			" if followed by spaces and ')'
+			return "\<ESC>cf".l:close_char
+		else
+			" if followed by other characters instead of ')'
+			return "\<BS>"
+		endif
+	else
+		return "\<BS>"
+	endif
+endfunction
+
+"---------------------------------------------------------------------
+" copy file name of the current file
 nnoremap <C-F9> :let @+=expand("%:t")<CR>
-" copy full path
+" copy full path of the current file
 nnoremap <C-F10> :let @+=expand("%:p")<CR>
 
+"---------------------------------------------------------------------
 " add or remove 'TODO' mark
 nnoremap <Leader>td :call Todo()<CR>
 
@@ -734,15 +771,26 @@ function! Todo()
     " call cursor(s:lnum, s:pos)
 endfunction
 
-"-----------------------------
+"---------------------------------------------------------------------
+" move the current line to the end of the file
+" TODO: improve this function to move a line to any position
+nnoremap m$ :call MoveLine() <CR>
+
+function! MoveLine()
+    let l:pos_bak = getpos('.')
+    :.m$
+    call setpos('.', l:pos_bak)
+endfunction
+
+"---------------------------------------------------------------------
 " for copy to system clipboard
-" copy a single line
+" copy a single line to system clipboard
 nnoremap <Leader>yy :let @+=getline('.')<CR>
 nnoremap <Leader>YY :let @+=getline('.')<CR>
-" copy the word under the curser
+" copy the word under the curser to system clipboard
 nnoremap <Leader>yiw :let @+=expand('<cword>')<CR>
 
-"-----------------------------
+"---------------------------------------------------------------------
 " open the folder contains the current file with explorer
 nnoremap <Leader>ex :!start explorer /e,%:p:h<CR>
 
@@ -752,8 +800,12 @@ nnoremap <Leader>cmd :!start cmd /k %:p:h:8<CR>
 " open powershell in current location
 nnoremap <Leader>ps :!start powershell -noexit -command "& {cd %:p:h:8}"<CR>
 
-" open current directory
+" open the directory of the current file in vim
 nnoremap <Leader>od :e %:p:h<CR>
 
 " open current directory in new tab
 nnoremap <Leader>nd :tabnew %:p:h<CR>
+
+" reload file and jump to the end of the file, it is useful if the file is
+" modified externally.
+nnoremap <F5> :e %<CR> G
