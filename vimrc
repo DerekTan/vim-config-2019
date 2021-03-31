@@ -232,7 +232,7 @@ Plug 'skywind3000/gutentags_plus'
 Plug 'skywind3000/vim-preview'
 Plug 'vim-scripts/CRefVim'
 Plug 'w0rp/ale'
-Plug 'mhinz/vim-signify'
+"Plug 'mhinz/vim-signify'   " show version status -- report error message
 "Plug 'octol/vim-cpp-enhanced-highlight'
 "Plug 'vim-scripts/DoxygenToolkit.vim'
 Plug 'DerekTan/DoxygenToolkitForRainbow'
@@ -245,13 +245,14 @@ Plug 'luochen1990/rainbow'
 Plug 'rickhowe/spotdiff.vim'
 Plug 'vim-scripts/matchit.zip'
 Plug 'Yggdroot/indentLine'
-Plug 'mattn/emmet-vim'
-Plug 'pangloss/vim-javascript'
+"Plug 'mattn/emmet-vim'
+"Plug 'pangloss/vim-javascript'
 Plug 'skywind3000/vim-quickui'
 " colorscheme NeoSolarized
 Plug 'iCyMind/NeoSolarized'
 Plug 'DerekTan/webAssistant'
 Plug 'juneedahamed/vc.vim' 	" version control 
+Plug 'godlygeek/tabular'    " Tabularize your input
 
 " If you don't have nodejs and yarn
 " use pre build
@@ -318,8 +319,10 @@ nnoremap <C-]> :ts <C-R>=expand("<cword>")<CR><CR>
 "------------------------------
 " for gtags
 " use gtags for C/C++/Java, use pygments for other languages
-let $GTAGSLABEL = 'native-pygments'
-let $GTAGSCONF = $HOME.'/vimfiles/gtags/share/gtags/gtags.conf'
+"let $GTAGSLABEL = 'native-pygments'
+let $GTAGSLABEL = 'native'
+"let $GTAGSCONF = $HOME.'/vimfiles/gtags/share/gtags/gtags.conf'
+let $GTAGSCONF = 'c:\utility\VIM\gtags\share\gtags\gtags.conf'
 
 "------------------------------
 "for NERDTree
@@ -400,10 +403,10 @@ noremap <silent> <leader>ga :GscopeFind a <C-R><C-W><cr>
 "==================================================================================================
 "  V I M - P R E V I E W
 "==================================================================================================
-noremap <m-j> :PreviewScroll -1<cr>
-noremap <m-k> :PreviewScroll +1<cr>
-inoremap <m-j> <c-\><c-o>:PreviewScroll -1<cr>
-inoremap <m-k> <c-\><c-o>:PreviewScroll +1<cr>
+noremap <m-j> :PreviewScroll +1<cr>
+noremap <m-k> :PreviewScroll -1<cr>
+inoremap <m-j> <c-\><c-o>:PreviewScroll +1<cr>
+inoremap <m-k> <c-\><c-o>:PreviewScroll -1<cr>
 
 autocmd FileType qf nnoremap <silent><buffer> p :PreviewQuickfix<cr>
 autocmd FileType qf nnoremap <silent><buffer> P :PreviewClose<cr>
@@ -446,14 +449,16 @@ let g:quickui_color_scheme = 'borland'
 let g:quickui_preview_w = 100
 let g:quickui_preview_h = 15
 
-"------------------------------
-" for Tagbar
+"==================================================================================================
+"  T A G   B A R
+"==================================================================================================
 nnoremap <silent> <F8> :TagbarToggle<CR>
 
 set termguicolors
 
-"------------------------------
-" for solarized
+"==================================================================================================
+"  S O L A R I Z E D
+"==================================================================================================
 "colorscheme darkblue
 if has('gui_running')
     set background=light
@@ -466,8 +471,9 @@ let g:solarized_contrast="high"
 
 colorscheme NeoSolarized
 
-"------------------------------
-" for ale
+"==================================================================================================
+"  A L E
+"==================================================================================================
 "set runtimepath+=C:\Program\ Files\Cppcheck
 
 let g:ale_linters = {
@@ -497,8 +503,9 @@ let g:ale_cpp_cppcheck_options = ''
 "hi! SpellCap gui=undercurl guisp=blue
 "hi! SpellRare gui=undercurl guisp=magenta
 
-"------------------------------
-" for LeaderF
+"==================================================================================================
+"  L E A D E R F
+"==================================================================================================
 "let g:Lf_ShortcutF = '<c-p>'
 "let g:Lf_ShortcutB = '<m-n>'
 noremap <Leader>R :LeaderfMru<cr>
@@ -516,7 +523,9 @@ let g:Lf_CacheDirectory = expand('~/.vim/cache')
 "let g:Lf_StlColorscheme = 'powerline'
 "let g:Lf_PreviewResult = {'Function':0, 'BufTag':0}
 
-"------------------------------
+"==================================================================================================
+"  M A R K D O W N - P R E V I E W
+"==================================================================================================
 " for markdown-preview
 let g:mkdp_path_to_chrome = "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"
 
@@ -609,7 +618,9 @@ let g:mkdp_page_title = '¡¸${name}¡¹'
 nnoremap <F7> :MarkdownPreview<CR>
 "nnoremap <F8> :MarkdownPreviewStop<CR>
 
-"------------------------------
+"==================================================================================================
+"  D O X Y G E N T O O L K I T
+"==================================================================================================
 " for doxygenToolkit
 nnoremap <F10>a :DoxAuthor<CR>
 nnoremap <F10>f :Dox<CR>
@@ -629,6 +640,34 @@ let g:UltiSnipsJumpForwardTrigger = '<tab>'
 let g:UltiSnipsJumpBackwardTrigger = '<s-tab>'
 " If you want :UltiSnipsEdit to split your window.
 let g:UltiSnipsEditSplit="vertical"
+
+"==================================================================================================
+"  R A I N B O W
+"==================================================================================================
+let g:rainbow_active = 1 "set to 0 if you want to enable it later via : RainbowToggle
+
+"==================================================================================================
+"  T A B U L A R
+"==================================================================================================
+if exists(":Tabularize")
+    nmap <Leader>a= :Tabularize /=<CR>
+    vmap <Leader>a= :Tabularize /=<CR>
+    nmap <Leader>a: :Tabularize /:\zs<CR>
+    vmap <Leader>a: :Tabularize /:\zs<CR>
+endif
+
+inoremap <silent> <Bar>   <Bar><Esc>:call <SID>align()<CR>a
+
+function! s:align()
+  let p = '^\s*|\s.*\s|\s*$'
+  if exists(':Tabularize') && getline('.') =~# '^\s*|' && (getline(line('.')-1) =~# p || getline(line('.')+1) =~# p)
+    let column = strlen(substitute(getline('.')[0:col('.')],'[^|]','','g'))
+    let position = strlen(matchstr(getline('.')[0:col('.')],'.*|\s*\zs.*'))
+    Tabularize/|/l1
+    normal! 0
+    call search(repeat('[^|]*|',column).'\s\{-\}'.repeat('.',position),'ce',line('.'))
+  endif
+endfunction
 
 "==================================================================================================
 "  P E R S O N A L   S E T T I N G S
@@ -783,6 +822,22 @@ function! MoveLine()
 endfunction
 
 "---------------------------------------------------------------------
+" highlight the word under cursor
+set updatetime=500
+
+function! HighlightWordUnderCursor()
+    if getline(".")[col(".")-1] !~# '[[:punct:][:blank:]]' 
+        "hi HighlightCurrentWord term=reverse cterm=reverse ctermfg=14 ctermbg=15 gui=reverse guifg=#93a1a1 guibg=#fdf6e3
+        hi HighlightCurrentWord term=reverse cterm=reverse ctermfg=14 ctermbg=15 gui=reverse guifg=#f4f400 guibg=#93a1a1
+        exec 'match' 'HighlightCurrentWord' '/\V\<'.expand('<cword>').'\>/' 
+    else 
+        match none 
+    endif
+endfunction
+
+autocmd! CursorHold,CursorHoldI * call HighlightWordUnderCursor()
+
+"---------------------------------------------------------------------
 " for copy to system clipboard
 " copy a single line to system clipboard
 nnoremap <Leader>yy :let @+=getline('.')<CR>
@@ -809,3 +864,9 @@ nnoremap <Leader>nd :tabnew %:p:h<CR>
 " reload file and jump to the end of the file, it is useful if the file is
 " modified externally.
 nnoremap <F5> :e %<CR> G
+
+"---------------------------------------------------------------------
+" move to previous tab
+nnoremap <M-h> gT
+" move to next tab
+nnoremap <M-l> gt
