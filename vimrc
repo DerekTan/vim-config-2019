@@ -8,7 +8,9 @@ set nocompatible
 set vb t_vb=
 
 "set gui option
-set go=gmrLt
+"set go=gmrLt
+" don't show menu bar
+set go=grLt
 
 "set font
 "set guifont=Powerline_Consolas:h12:cANSI:qDRAFT
@@ -53,6 +55,10 @@ set showmatch
 "How many tenths of a second to blink
 set mat=2
 
+"Set smartcase
+set ignorecase
+set smartcase
+
 "Highlight search things
 set hlsearch
 
@@ -63,22 +69,22 @@ set is
 set hidden
 
 " set statusline
-" ÉèÖÃ×´Ì¬ĞĞÏÔÊ¾³£ÓÃĞÅÏ¢
-" %F ÍêÕûÎÄ¼şÂ·¾¶Ãû
-" %m µ±Ç°»º³å±»ĞŞ¸Ä±ê¼Ç
-" %r µ±Ç°»º³åÖ»¶Á±ê¼Ç
-" %h °ïÖú»º³å±ê¼Ç
-" %w Ô¤ÀÀ»º³å±ê¼Ç
-" %Y ÎÄ¼şÀàĞÍ
-" %b ASCIIÖµ
-" %B Ê®Áù½øÖÆÖµ
-" %l ĞĞÊı
-" %v ÁĞÊı
-" %p µ±Ç°ĞĞÊıÕ¼×ÜĞĞÊıµÄµÄ°Ù·Ö±È
-" %L ×ÜĞĞÊı
-" %{...} ÆÀ¹À±í´ïÊ½µÄÖµ£¬²¢ÓÃÖµ´úÌæ
-" %{"[fenc=".(&fenc==""?&enc:&fenc).((exists("+bomb") && &bomb)?"+":"")."]"} ÏÔÊ¾ÎÄ¼ş±àÂë
-" %{&ff} ÏÔÊ¾ÎÄ¼şÀàĞÍ
+" è®¾ç½®çŠ¶æ€è¡Œæ˜¾ç¤ºå¸¸ç”¨ä¿¡æ¯
+" %F å®Œæ•´æ–‡ä»¶è·¯å¾„å
+" %m å½“å‰ç¼“å†²è¢«ä¿®æ”¹æ ‡è®°
+" %r å½“å‰ç¼“å†²åªè¯»æ ‡è®°
+" %h å¸®åŠ©ç¼“å†²æ ‡è®°
+" %w é¢„è§ˆç¼“å†²æ ‡è®°
+" %Y æ–‡ä»¶ç±»å‹
+" %b ASCIIå€¼
+" %B åå…­è¿›åˆ¶å€¼
+" %l è¡Œæ•°
+" %v åˆ—æ•°
+" %p å½“å‰è¡Œæ•°å æ€»è¡Œæ•°çš„çš„ç™¾åˆ†æ¯”
+" %L æ€»è¡Œæ•°
+" %{...} è¯„ä¼°è¡¨è¾¾å¼çš„å€¼ï¼Œå¹¶ç”¨å€¼ä»£æ›¿
+" %{"[fenc=".(&fenc==""?&enc:&fenc).((exists("+bomb") && &bomb)?"+":"")."]"} æ˜¾ç¤ºæ–‡ä»¶ç¼–ç 
+" %{&ff} æ˜¾ç¤ºæ–‡ä»¶ç±»å‹
 set statusline=%n>\ %F%m%r%h%w%=\ %Y\ %{\"[\".(&fenc==\"\"?&enc:&fenc).((exists(\"+bomb\")\ &&\ &bomb)?\"+\":\"\").\"]\"}\ %{&ff}\ <0x%B>\ (%l,%v)\ --%p%%--\ 
 "set statusline=%F%m%r%h%w%=\ [ft=%Y]\ %{\"[fenc=\".(&fenc==\"\"?&enc:&fenc).((exists(\"+bomb\")\ &&\ &bomb)?\"+\":\"\").\"]\"}\ [ff=%{&ff}]\ [asc=%03.3b]\ [hex=%02.2B]\ [pos=%04l,%04v][%p%%]\ [len=%L]
 
@@ -91,6 +97,7 @@ set backspace=eol,start,indent
 "Bbackspace and cursor keys wrap to
 set whichwrap+=<,>,h,l
 
+let mapleader = ";"
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Folding
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -125,15 +132,15 @@ set tabstop=4
 set lbr
 
 "set formatoptions
-"t£º¸ù¾İ textwidth ×Ô¶¯ÕÛĞĞ£»
-"c£ºÔÚ£¨³ÌĞòÔ´´úÂëÖĞµÄ£©×¢ÊÍÖĞ×Ô¶¯ÕÛĞĞ£¬²åÈëºÏÊÊµÄ×¢ÊÍÆğÊ¼×Ö·û£»
-"r£º²åÈëÄ£Ê½ÏÂÔÚ×¢ÊÍÖĞ¼üÈë»Ø³µÊ±£¬²åÈëºÏÊÊµÄ×¢ÊÍÆğÊ¼×Ö·û£»
-"q£ºÔÊĞíÊ¹ÓÃ¡°gq¡±ÃüÁî¶Ô×¢ÊÍ½øĞĞ¸ñÊ½»¯£»
-"n£ºÊ¶±ğ±àºÅÁĞ±í£¬±àºÅĞĞµÄÏÂÒ»ĞĞµÄËõ½øÓÉÊı×ÖºóµÄ¿Õ°×¾ö¶¨£¨Óë¡°2¡±³åÍ»£¬ĞèÒª¡°autoindent¡±£©£»
-"2£ºÊ¹ÓÃÒ»¶ÎµÄµÚ¶şĞĞµÄËõ½øÀ´¸ñÊ½»¯ÎÄ±¾£»
-"l£ºÔÚµ±Ç°ĞĞ³¤¶È³¬¹ı textwidth Ê±£¬²»×Ô¶¯ÖØĞÂ¸ñÊ½»¯£»
-"m£ºÔÚ¶à×Ö½Ú×Ö·û´¦¿ÉÒÔÕÛĞĞ£¬¶ÔÖĞÎÄÌØ±ğÓĞĞ§£¨·ñÔòÖ»ÔÚ¿Õ°××Ö·û´¦ÕÛĞĞ£©£»
-"M£ºÔÚÆ´½ÓÁ½ĞĞÊ±£¨ÖØĞÂ¸ñÊ½»¯£¬»òÕßÊÇÊÖ¹¤Ê¹ÓÃ¡°J¡±ÃüÁî£©£¬Èç¹ûÇ°Ò»ĞĞµÄ½áÎ²»òºóÒ»ĞĞµÄ¿ªÍ·ÊÇ¶à×Ö½Ú×Ö·û£¬Ôò²»²åÈë¿Õ¸ñ£¬·Ç³£ÊÊºÏÖĞÎÄ
+"tï¼šæ ¹æ® textwidth è‡ªåŠ¨æŠ˜è¡Œï¼›
+"cï¼šåœ¨ï¼ˆç¨‹åºæºä»£ç ä¸­çš„ï¼‰æ³¨é‡Šä¸­è‡ªåŠ¨æŠ˜è¡Œï¼Œæ’å…¥åˆé€‚çš„æ³¨é‡Šèµ·å§‹å­—ç¬¦ï¼›
+"rï¼šæ’å…¥æ¨¡å¼ä¸‹åœ¨æ³¨é‡Šä¸­é”®å…¥å›è½¦æ—¶ï¼Œæ’å…¥åˆé€‚çš„æ³¨é‡Šèµ·å§‹å­—ç¬¦ï¼›
+"qï¼šå…è®¸ä½¿ç”¨â€œgqâ€å‘½ä»¤å¯¹æ³¨é‡Šè¿›è¡Œæ ¼å¼åŒ–ï¼›
+"nï¼šè¯†åˆ«ç¼–å·åˆ—è¡¨ï¼Œç¼–å·è¡Œçš„ä¸‹ä¸€è¡Œçš„ç¼©è¿›ç”±æ•°å­—åçš„ç©ºç™½å†³å®šï¼ˆä¸â€œ2â€å†²çªï¼Œéœ€è¦â€œautoindentâ€ï¼‰ï¼›
+"2ï¼šä½¿ç”¨ä¸€æ®µçš„ç¬¬äºŒè¡Œçš„ç¼©è¿›æ¥æ ¼å¼åŒ–æ–‡æœ¬ï¼›
+"lï¼šåœ¨å½“å‰è¡Œé•¿åº¦è¶…è¿‡ textwidth æ—¶ï¼Œä¸è‡ªåŠ¨é‡æ–°æ ¼å¼åŒ–ï¼›
+"mï¼šåœ¨å¤šå­—èŠ‚å­—ç¬¦å¤„å¯ä»¥æŠ˜è¡Œï¼Œå¯¹ä¸­æ–‡ç‰¹åˆ«æœ‰æ•ˆï¼ˆå¦åˆ™åªåœ¨ç©ºç™½å­—ç¬¦å¤„æŠ˜è¡Œï¼‰ï¼›
+"Mï¼šåœ¨æ‹¼æ¥ä¸¤è¡Œæ—¶ï¼ˆé‡æ–°æ ¼å¼åŒ–ï¼Œæˆ–è€…æ˜¯æ‰‹å·¥ä½¿ç”¨â€œJâ€å‘½ä»¤ï¼‰ï¼Œå¦‚æœå‰ä¸€è¡Œçš„ç»“å°¾æˆ–åä¸€è¡Œçš„å¼€å¤´æ˜¯å¤šå­—èŠ‚å­—ç¬¦ï¼Œåˆ™ä¸æ’å…¥ç©ºæ ¼ï¼Œéå¸¸é€‚åˆä¸­æ–‡
 set formatoptions+=mM
 
    """"""""""""""""""""""""""""""
@@ -163,31 +170,31 @@ syntax enable
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " encoding
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" ±àÂëµÄ×Ô¶¯Ê¶±ğ£¬ÊÇÍ¨¹ıÉèÖÃfileencodingsÊµÏÖµÄ¡£
-" fileencodingsÊÇÒ»¸öÓÃ¶ººÅ·Ö¸ôµÄÁĞ±í£¬ÁĞ±íÖĞµÄÃ¿Ò»ÏîÊÇÒ»ÖÖ±àÂëµÄÃû³Æ¡£
-" µ±ÎÒÃÇ´ò¿ªÎÄ¼şÊ±£¬Vim°´Ë³ĞòÊ¹ÓÃfileencodingsÖĞµÄ±àÂë½øĞĞ³¢ÊÔ½âÂë£¬
-" Èç¹û³É¹¦µÄ»°£¬¾ÍÊ¹ÓÃ¸Ã±àÂë·½Ê½½øĞĞ½âÂë£¬²¢½«fileencodingÉèÖÃÎªÕâ¸öÖµ£»Èç¹ûÊ§°ÜµÄ»°£¬¾Í¼ÌĞø¼ìÑéÏÂÒ»¸ö±àÂë¡£
-" Òò´Ë£¬ÎÒÃÇÔÚÉèÖÃfileencodingsÊ±£¬Ò»¶¨Òª°ÑÑÏ¸ñµÄ±àÂë·½Ê½·ÅÔÚÇ°Ãæ£¬°Ñ¿íËÉµÄ±àÂë·½Ê½·ÅÔÚºóÃæ¡£
-" ÀıÈç£¬latin1ÊÇÒ»ÖÖ·Ç³£¿íËÉµÄ±àÂë·½Ê½£¬ÈÎºÎÒ»ÖÖ±àÂë·½Ê½µÃµ½µÄÎÄ±¾£¬ÓÃlatin1½øĞĞ½âÂë£¬¶¼²»»á·¢Éú½âÂëÊ§°Ü¡£
-" µ±È»£¬½âÂëµÃµ½µÄ½á¹ûÒ²ºÜ¿ÉÄÜ»áÊÇÂÒÂë¡£
-" Òò´Ë£¬Èç¹ûÄã°Ñlatin1·Åµ½fileencodingsµÄµÚÒ»Î»£¬ÄÇÃ´´ò¿ªÈÎºÎÖĞÎÄÎÄ¼ş¶¼»áÏÔÊ¾ÂÒÂëÁË¡£
-" ÍÆ¼öÊ¹ÓÃÒÔÏÂfileencodingsÉèÖÃ£º
+" ç¼–ç çš„è‡ªåŠ¨è¯†åˆ«ï¼Œæ˜¯é€šè¿‡è®¾ç½®fileencodingså®ç°çš„ã€‚
+" fileencodingsæ˜¯ä¸€ä¸ªç”¨é€—å·åˆ†éš”çš„åˆ—è¡¨ï¼Œåˆ—è¡¨ä¸­çš„æ¯ä¸€é¡¹æ˜¯ä¸€ç§ç¼–ç çš„åç§°ã€‚
+" å½“æˆ‘ä»¬æ‰“å¼€æ–‡ä»¶æ—¶ï¼ŒVimæŒ‰é¡ºåºä½¿ç”¨fileencodingsä¸­çš„ç¼–ç è¿›è¡Œå°è¯•è§£ç ï¼Œ
+" å¦‚æœæˆåŠŸçš„è¯ï¼Œå°±ä½¿ç”¨è¯¥ç¼–ç æ–¹å¼è¿›è¡Œè§£ç ï¼Œå¹¶å°†fileencodingè®¾ç½®ä¸ºè¿™ä¸ªå€¼ï¼›å¦‚æœå¤±è´¥çš„è¯ï¼Œå°±ç»§ç»­æ£€éªŒä¸‹ä¸€ä¸ªç¼–ç ã€‚
+" å› æ­¤ï¼Œæˆ‘ä»¬åœ¨è®¾ç½®fileencodingsæ—¶ï¼Œä¸€å®šè¦æŠŠä¸¥æ ¼çš„ç¼–ç æ–¹å¼æ”¾åœ¨å‰é¢ï¼ŒæŠŠå®½æ¾çš„ç¼–ç æ–¹å¼æ”¾åœ¨åé¢ã€‚
+" ä¾‹å¦‚ï¼Œlatin1æ˜¯ä¸€ç§éå¸¸å®½æ¾çš„ç¼–ç æ–¹å¼ï¼Œä»»ä½•ä¸€ç§ç¼–ç æ–¹å¼å¾—åˆ°çš„æ–‡æœ¬ï¼Œç”¨latin1è¿›è¡Œè§£ç ï¼Œéƒ½ä¸ä¼šå‘ç”Ÿè§£ç å¤±è´¥ã€‚
+" å½“ç„¶ï¼Œè§£ç å¾—åˆ°çš„ç»“æœä¹Ÿå¾ˆå¯èƒ½ä¼šæ˜¯ä¹±ç ã€‚
+" å› æ­¤ï¼Œå¦‚æœä½ æŠŠlatin1æ”¾åˆ°fileencodingsçš„ç¬¬ä¸€ä½ï¼Œé‚£ä¹ˆæ‰“å¼€ä»»ä½•ä¸­æ–‡æ–‡ä»¶éƒ½ä¼šæ˜¾ç¤ºä¹±ç äº†ã€‚
+" æ¨èä½¿ç”¨ä»¥ä¸‹fileencodingsè®¾ç½®ï¼š
 set fileencodings=utf-8,gb2312,gbk,gb18030
 
-" encodingÊÇVimÄÚ²¿Ê¹ÓÃµÄ×Ö·û±àÂë·½Ê½¡£
-" VimÄÚ²¿ËùÓĞµÄbuffer¡¢¼Ä´æÆ÷¡¢½Å±¾ÖĞµÄ×Ö·û´®µÈ£¬¶¼»áÊ¹ÓÃencodingÉèÖÃµÄ±àÂë¡£
-" Èç¹û±àÂë·½Ê½ÓëVimµÄÄÚ²¿±àÂë²»Ò»ÖÂ£¬ÄÇÃ´»áÏÈ°Ñ±àÂë×ª»»³ÉÄÚ²¿±àÂë¡£
-" Èç¹û±àÂëÖĞº¬ÓĞÎŞ·¨×ª»»ÎªÄÚ²¿±àÂëµÄ×Ö·û£¬ÄÇÃ´ÕâĞ©×Ö·û¾Í»á¶ªÊ§¡£
-" Òò´Ë£¬ÔÚÑ¡ÔñVimÄÚ²¿±àÂëÊ±£¬Ò»¶¨ÒªÊ¹ÓÃÒ»ÖÖ°üÈİÁ¦×ã¹»Ç¿µÄ±àÂë¡£
-" ÓÉÓÚencodingÑ¡ÏîÉæ¼°µ½VimÖĞËùÓĞ×Ö·ûµÄÄÚ²¿±íÊ¾£¬Òò´ËÖ»ÄÜÔÚVimÆô¶¯µÄÊ±ºòÉèÖÃÒ»´Î¡£
-" ÔÚVim¹¤×÷¹ı³ÌÖĞĞŞ¸Äencoding»áÔì³É·Ç³£¶àµÄÎÊÌâ¡£
-" ½¨Òé½«encodingÉèÖÃÎªutf-8£¬Í¬Ê±ÉèÖÃÒÔÏÂÑ¡Ïî£¬ÒÔ±ÜÃâÔÚ·ÇUTF-8ÏµÍ³£¨ÈçWindows£©ÏÂ£¬²Ëµ¥ºÍÏµÍ³ÌáÊ¾³öÏÖÂÒÂë£º
+" encodingæ˜¯Vimå†…éƒ¨ä½¿ç”¨çš„å­—ç¬¦ç¼–ç æ–¹å¼ã€‚
+" Vimå†…éƒ¨æ‰€æœ‰çš„bufferã€å¯„å­˜å™¨ã€è„šæœ¬ä¸­çš„å­—ç¬¦ä¸²ç­‰ï¼Œéƒ½ä¼šä½¿ç”¨encodingè®¾ç½®çš„ç¼–ç ã€‚
+" å¦‚æœç¼–ç æ–¹å¼ä¸Vimçš„å†…éƒ¨ç¼–ç ä¸ä¸€è‡´ï¼Œé‚£ä¹ˆä¼šå…ˆæŠŠç¼–ç è½¬æ¢æˆå†…éƒ¨ç¼–ç ã€‚
+" å¦‚æœç¼–ç ä¸­å«æœ‰æ— æ³•è½¬æ¢ä¸ºå†…éƒ¨ç¼–ç çš„å­—ç¬¦ï¼Œé‚£ä¹ˆè¿™äº›å­—ç¬¦å°±ä¼šä¸¢å¤±ã€‚
+" å› æ­¤ï¼Œåœ¨é€‰æ‹©Vimå†…éƒ¨ç¼–ç æ—¶ï¼Œä¸€å®šè¦ä½¿ç”¨ä¸€ç§åŒ…å®¹åŠ›è¶³å¤Ÿå¼ºçš„ç¼–ç ã€‚
+" ç”±äºencodingé€‰é¡¹æ¶‰åŠåˆ°Vimä¸­æ‰€æœ‰å­—ç¬¦çš„å†…éƒ¨è¡¨ç¤ºï¼Œå› æ­¤åªèƒ½åœ¨Vimå¯åŠ¨çš„æ—¶å€™è®¾ç½®ä¸€æ¬¡ã€‚
+" åœ¨Vimå·¥ä½œè¿‡ç¨‹ä¸­ä¿®æ”¹encodingä¼šé€ æˆéå¸¸å¤šçš„é—®é¢˜ã€‚
+" å»ºè®®å°†encodingè®¾ç½®ä¸ºutf-8ï¼ŒåŒæ—¶è®¾ç½®ä»¥ä¸‹é€‰é¡¹ï¼Œä»¥é¿å…åœ¨éUTF-8ç³»ç»Ÿï¼ˆå¦‚Windowsï¼‰ä¸‹ï¼Œèœå•å’Œç³»ç»Ÿæç¤ºå‡ºç°ä¹±ç ï¼š
 set encoding=utf-8
 set langmenu=en_US
 let $LANG = 'en_US'
 source $VIMRUNTIME/delmenu.vim
 source $VIMRUNTIME/menu.vim
-" Èç¹ûÒªÊ¹ÓÃÖĞÎÄ²Ëµ¥£¬°ÑÉÏÃæ4ĞĞÌæ»»³ÉÏÂÃæÁ½ĞĞ
+" å¦‚æœè¦ä½¿ç”¨ä¸­æ–‡èœå•ï¼ŒæŠŠä¸Šé¢4è¡Œæ›¿æ¢æˆä¸‹é¢ä¸¤è¡Œ
 " set langmenu=zh_CN.UTF-8
 " language message zh_CN.UTF-8
 
@@ -209,7 +216,7 @@ noremap <F12> :w<CR>:source %<CR>
 " autocmd
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-"windows´°¿Ú×î´ó»¯ÉèÖÃ£¨Èç¹û²»Ïë´ò¿ªvimºó¾Í×Ô¶¯×î´ó»¯£¬°ÑÕâĞĞÉ¾È¥£©
+"windowsçª—å£æœ€å¤§åŒ–è®¾ç½®ï¼ˆå¦‚æœä¸æƒ³æ‰“å¼€vimåå°±è‡ªåŠ¨æœ€å¤§åŒ–ï¼ŒæŠŠè¿™è¡Œåˆ å»ï¼‰
 au GUIEnter * simalt ~x
 
 
@@ -253,6 +260,7 @@ Plug 'iCyMind/NeoSolarized'
 Plug 'DerekTan/webAssistant'
 Plug 'juneedahamed/vc.vim' 	" version control 
 Plug 'godlygeek/tabular'    " Tabularize your input
+Plug 'mileszs/ack.vim'
 
 " If you don't have nodejs and yarn
 " use pre build
@@ -332,13 +340,13 @@ noremap <F3> :NERDTreeToggle<CR>
 "  G U T E N T A G S
 "==================================================================================================
 "for gutentags
-" gutentags ËÑË÷¹¤³ÌÄ¿Â¼µÄ±êÖ¾£¬Åöµ½ÕâĞ©ÎÄ¼ş/Ä¿Â¼Ãû¾ÍÍ£Ö¹ÏòÉÏÒ»¼¶Ä¿Â¼µİ¹é
+" gutentags æœç´¢å·¥ç¨‹ç›®å½•çš„æ ‡å¿—ï¼Œç¢°åˆ°è¿™äº›æ–‡ä»¶/ç›®å½•åå°±åœæ­¢å‘ä¸Šä¸€çº§ç›®å½•é€’å½’
 let g:gutentags_project_root = ['.root', '.svn', '.git', '.hg', '.project', '.vs', '.vscode']
 
-" ËùÉú³ÉµÄÊı¾İÎÄ¼şµÄÃû³Æ
+" æ‰€ç”Ÿæˆçš„æ•°æ®æ–‡ä»¶çš„åç§°
 let g:gutentags_ctags_tagfile = '.tags'
 
-" Í¬Ê±¿ªÆô ctags ºÍ gtags Ö§³Ö£º
+" åŒæ—¶å¼€å¯ ctags å’Œ gtags æ”¯æŒï¼š
 let g:gutentags_modules = []
 if executable('ctags')
 	let g:gutentags_modules += ['ctags']
@@ -347,30 +355,30 @@ if executable('gtags-cscope') && executable('gtags')
 	let g:gutentags_modules += ['gtags_cscope']
 endif
 
-" ½«×Ô¶¯Éú³ÉµÄ tags ÎÄ¼şÈ«²¿·ÅÈë ~/.cache/tags Ä¿Â¼ÖĞ£¬±ÜÃâÎÛÈ¾¹¤³ÌÄ¿Â¼
+" å°†è‡ªåŠ¨ç”Ÿæˆçš„ tags æ–‡ä»¶å…¨éƒ¨æ”¾å…¥ ~/.cache/tags ç›®å½•ä¸­ï¼Œé¿å…æ±¡æŸ“å·¥ç¨‹ç›®å½•
 let s:vim_tags = expand('~/.cache/tags')
 let g:gutentags_cache_dir = s:vim_tags
 
 " show tag generation progress in status-line
 " set statusline+=%{gutentags#statusline()}
 
-" ÅäÖÃ ctags µÄ²ÎÊı
+" é…ç½® ctags çš„å‚æ•°
 let g:gutentags_ctags_extra_args = ['--fields=+niazS', '--extra=+q']
 let g:gutentags_ctags_extra_args += ['--c++-kinds=+px']
 let g:gutentags_ctags_extra_args += ['--c-kinds=+px']
-" Èç¹ûÊ¹ÓÃ universal ctags ĞèÒªÔö¼ÓÏÂÃæÒ»ĞĞ
+" å¦‚æœä½¿ç”¨ universal ctags éœ€è¦å¢åŠ ä¸‹é¢ä¸€è¡Œ
 let g:gutentags_ctags_extra_args += ['--output-format=e-ctags']
 
-" ½ûÓÃ gutentags ×Ô¶¯¼ÓÔØ gtags Êı¾İ¿âµÄĞĞÎª£¬·ñÔò
+" ç¦ç”¨ gutentags è‡ªåŠ¨åŠ è½½ gtags æ•°æ®åº“çš„è¡Œä¸ºï¼Œå¦åˆ™
 let g:gutentags_auto_add_gtags_cscope = 0
 
-" ²é¿´ gtags µÄ´íÎóÊä³ö,debug only£º
+" æŸ¥çœ‹ gtags çš„é”™è¯¯è¾“å‡º,debug onlyï¼š
 let g:gutentags_define_advanced_commands = 0
 
 " debug
 let g:gutentags_trace = 0
 
-" ¼ì²â ~/.cache/tags ²»´æÔÚ¾ÍĞÂ½¨
+" æ£€æµ‹ ~/.cache/tags ä¸å­˜åœ¨å°±æ–°å»º
 if !isdirectory(s:vim_tags)
    silent! call mkdir(s:vim_tags, 'p')
 endif
@@ -518,10 +526,15 @@ let g:Lf_RootMarkers = ['.project', '.root', '.svn', '.git']
 let g:Lf_WorkingDirectoryMode = 'Ac'
 let g:Lf_WindowHeight = 0.30
 let g:Lf_CacheDirectory = expand('~/.vim/cache')
+" specify the rg(ripgrep) executable
+let g:Lf_Rg = 'rg.exe'
 "let g:Lf_ShowRelativePath = 0
 "let g:Lf_HideHelp = 1
 "let g:Lf_StlColorscheme = 'powerline'
 "let g:Lf_PreviewResult = {'Function':0, 'BufTag':0}
+" popup mode
+let g:Lf_WindowPosition = 'popup'
+let g:Lf_PreviewInPopup = 1
 
 "==================================================================================================
 "  M A R K D O W N - P R E V I E W
@@ -610,7 +623,7 @@ let g:mkdp_port = ''
 
 " preview page title
 " ${name} will be replace with the file name
-let g:mkdp_page_title = '¡¸${name}¡¹'
+let g:mkdp_page_title = 'ã€Œ${name}ã€'
 
 "<Plug>MarkdownPreview
 "<Plug>MarkdownPreviewStop
@@ -668,6 +681,36 @@ function! s:align()
     call search(repeat('[^|]*|',column).'\s\{-\}'.repeat('.',position),'ce',line('.'))
   endif
 endfunction
+
+"==================================================================================================
+"  A C K
+"==================================================================================================
+" ack.vim 
+
+" Use ripgrep for searching âš¡ï¸
+" Options include:
+" --vimgrep -> Needed to parse the rg response properly for ack.vim
+" --type-not sql -> Avoid huge sql file dumps as it slows down the search
+" --smart-case -> Search case insensitive if all lowercase pattern, Search
+"  case sensitively otherwise
+let g:ackprg = 'rg --vimgrep --type-not sql --smart-case'
+
+" Auto close the Quickfix list after pressing '<enter>' on a list item
+let g:ack_autoclose = 1
+
+" Any empty ack search will search for the work the cursor is on
+let g:ack_use_cword_for_empty_search = 1
+
+" Don't jump to first match
+cnoreabbrev Ack Ack!
+
+" Maps <leader>/ so we're ready to type the search keyword
+nnoremap <Leader>/ :Ack!<Space>
+" 
+
+" Navigate quickfix list with ease
+nnoremap <silent> [q :cprevious<CR>
+nnoremap <silent> ]q :cnext<CR>
 
 "==================================================================================================
 "  P E R S O N A L   S E T T I N G S
@@ -729,7 +772,7 @@ inoremap ] <c-r>=ClosePair(']')<CR>
 "inoremap } <c-r>=CloseBracket()<CR>
 "inoremap " <c-r>=QuoteDelim('"')<CR>
 "inoremap ' <c-r>=QuoteDelim("'")<CR>
-"ÓÃÍË¸ñ¼üÉ¾³ıÒ»¸ö×óÀ¨ºÅÊ±Í¬Ê±É¾³ı¶ÔÓ¦µÄÓÒÀ¨ºÅ
+"ç”¨é€€æ ¼é”®åˆ é™¤ä¸€ä¸ªå·¦æ‹¬å·æ—¶åŒæ—¶åˆ é™¤å¯¹åº”çš„å³æ‹¬å·
 "inoremap <BS> <ESC>:call RemovePairs()<CR>
 inoremap <BS> <c-r>=RemovePairs()<CR>
 
@@ -760,7 +803,7 @@ endf
 
 function! RemovePairs()
 	let l:line = getline(".")
-	let l:previous_char = l:line[col(".")-2] "È¡µÃµ±Ç°¹â±êÇ°Ò»¸ö×Ö·û
+	let l:previous_char = l:line[col(".")-2] "å–å¾—å½“å‰å…‰æ ‡å‰ä¸€ä¸ªå­—ç¬¦
 
 	if l:previous_char ==# '('
 		let l:close_char = ')'
@@ -870,3 +913,13 @@ nnoremap <F5> :e %<CR> G
 nnoremap <M-h> gT
 " move to next tab
 nnoremap <M-l> gt
+" create new tab with current file
+nnoremap <m-t> :tabnew %<CR><ESC>
+
+"---------------------------------------------------------------------
+" scroll the other window
+nnoremap <m-e> <c-w>w<c-e><c-w>w
+nnoremap <m-y> <c-w>w<c-y><c-w>w
+
+" use shift-del to replace shift-insert
+inoremap <S-Del> <C-R>+
