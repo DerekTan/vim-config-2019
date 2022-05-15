@@ -899,7 +899,7 @@ nnoremap <Leader>cmd :!start cmd /k %:p:h:8<CR>
 nnoremap <Leader>ps :!start powershell -noexit -command "& {cd %:p:h:8}"<CR>
 
 " open the directory of the current file in vim
-nnoremap <Leader>od :e %:p:h<CR>
+nnoremap <Leader>cd :e %:p:h<CR>
 
 " open current directory in new tab
 nnoremap <Leader>nd :tabnew %:p:h<CR>
