@@ -166,6 +166,22 @@ set formatoptions+=mM
 "Enable syntax highlight
 syntax enable
 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Sessions
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"
+set sessionoptions=buffers,curdir,resize,folds,tabpages
+" 注意目录要存在
+autocmd VimLeave * mks! $HOME/.cache/session/Session.vim
+noremap <leader>os  :call ReadSession()<cr>
+
+function ReadSession()
+    let session_file = $HOME . "/.cache/session/Session.vim"
+    if filereadable( session_file )
+        execute "so " . session_file
+    endif
+endfunction
+
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " encoding
@@ -206,11 +222,6 @@ nnoremap <C-l> <C-w>l
 nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 noremap <Leader>wr :set wrap<CR>
-
-" for windows
-noremap <F11> :!py -3 %
-noremap <F12> :w<CR>:source %<CR>
-
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " autocmd
@@ -284,7 +295,8 @@ Plug 'Yggdroot/LeaderF', { 'do': '.\install.bat' }
 
 " Using a non-master branch
 "Plug 'rdnetto/YCM-Generator', { 'branch': 'stable' }
-Plug 'skywind3000/vim-auto-popmenu'
+"Plug 'skywind3000/vim-auto-popmenu'　＂use <tab> to popup the
+"completion menu, which conflicts with vim-snippets
 
 
 " Using a tagged release; wildcard allowed (requires git 1.9.2 or above)
@@ -382,6 +394,18 @@ let g:gutentags_trace = 0
 if !isdirectory(s:vim_tags)
    silent! call mkdir(s:vim_tags, 'p')
 endif
+
+"==================================================================================================
+"  S Y N T A S T I C
+"==================================================================================================
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
 
 "==================================================================================================
 "  G U T E N T A G S   P L U S
@@ -899,7 +923,7 @@ nnoremap <Leader>cmd :!start cmd /k %:p:h:8<CR>
 nnoremap <Leader>ps :!start powershell -noexit -command "& {cd %:p:h:8}"<CR>
 
 " open the directory of the current file in vim
-nnoremap <Leader>cd :e %:p:h<CR>
+nnoremap <Leader>od :e %:p:h<CR>
 
 " open current directory in new tab
 nnoremap <Leader>nd :tabnew %:p:h<CR>
@@ -923,3 +947,13 @@ nnoremap <m-y> <c-w>w<c-y><c-w>w
 
 " use shift-del to replace shift-insert
 inoremap <S-Del> <C-R>+
+
+" for windows
+noremap <F11> :!py -3 %
+
+
+" CTRL-C are Copy
+vnoremap <C-c> "+y
+
+" CTRL-V are paste
+inoremap <C-v> <C-R>"
